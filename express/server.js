@@ -7,7 +7,7 @@ const serverless = require('serverless-http');
 const app = express();
 const bodyParser = require('body-parser');
 const fetch = require("node-fetch");
-
+var cors = require("cors");
 const homePage = "https://tycho.pl/cstmpl";
 const url = `${homePage}/wp-json/wc/v3/products/batch?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}`;
 const customProducts = {
@@ -22,6 +22,14 @@ const customProducts = {
 };
 
 const router = express.Router();
+
+app.use(cors());
+
+app.get("/hello", (req, res) => {
+  res.send("Hello World!");
+  console.log(req.body);
+  res.json(req.body);
+});
 
 app.get("/", async (req, res) => {
   try {
