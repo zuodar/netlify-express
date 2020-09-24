@@ -25,13 +25,8 @@ const router = express.Router();
 
 app.use(cors());
 
-app.get("/hello", (req, res) => {
-  res.send("Hello World!");
-  console.log(req.body);
-  res.json(req.body);
-});
 
-app.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const response = await fetch(url, {
       method: "POST",
