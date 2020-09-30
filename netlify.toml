@@ -1,2 +1,2 @@
 [build]
-  command = "cd ./functions/server.js && npm install && cd ../../ && npm run generate"
+  command = "cd ./functions && npm install && cd ../../ && npm run generate"
