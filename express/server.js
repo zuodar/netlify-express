@@ -27,7 +27,7 @@ app.use(cors());
 
 router.get("/", async (req, res) => {
   try {
-    const results = "test";
+    const results = process.env.consumer_key.slice(5, 8);
     return res.json({ results });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
