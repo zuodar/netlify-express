@@ -16,6 +16,7 @@
     "serverless-http": "^2.3.0"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "cors": "^2.8.5",
     "encoding": "^0.1.13",
     "node-fetch": "^2.6.1"
