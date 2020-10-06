@@ -30,11 +30,6 @@ function axiosTest() {
   return dataPromise;
 }
 
-const corsOptions = {
-  origin: "https://tycho.pl",
-  optionsSuccessStatus: 200,
-};
-
 router.get("/", async (req, res) => {
   axiosTest()
     .then((data) => {
@@ -47,10 +42,17 @@ router.post("/", (req, res) => res.json({ postBody: req.body }));
 
 app.use(bodyParser.json());
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://tycho.pl");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.use("/.netlify/functions/server", router); // path must route to lambda
-app.use("/", cors(corsOptions), (req, res) =>
-  res.sendFile(path.join(__dirname, "../index.html"))
-);
+app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
 
 module.exports = app;
 module.exports.handler = serverless(app);
