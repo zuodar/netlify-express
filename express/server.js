@@ -8,7 +8,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const axios = require("axios");
 
-var cors = require("cors");
 const homePage = "https://tycho.pl/cstmpl";
 const url = `${homePage}/wp-json/wc/v3/products/batch?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}`;
 const customProducts = {
@@ -24,8 +23,15 @@ const customProducts = {
 
 const router = express.Router();
 
+const headers = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "https://tycho.pl",
+};
+
 function axiosTest() {
-  const promise = axios.post(url, customProducts);
+  const promise = axios.post(url, customProducts, {
+    headers: headers,
+  });
   const dataPromise = promise.then((response) => response.data);
   return dataPromise;
 }
@@ -41,15 +47,6 @@ router.get("/", async (req, res) => {
 router.post("/", (req, res) => res.json({ postBody: req.body }));
 
 app.use(bodyParser.json());
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://tycho.pl");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 app.use("/.netlify/functions/server", router); // path must route to lambda
 app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
