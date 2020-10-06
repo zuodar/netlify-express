@@ -6,7 +6,6 @@ const path = require("path");
 const serverless = require("serverless-http");
 const app = express();
 const bodyParser = require("body-parser");
-const fetch = require("node-fetch");
 const axios = require("axios");
 
 var cors = require("cors");
@@ -25,18 +24,18 @@ const customProducts = {
 
 const router = express.Router();
 
-app.use(cors());
-
 function axiosTest() {
-  // create a promise for the axios request
   const promise = axios.post(url, customProducts);
-  // using .then, create a new promise which extracts the data
   const dataPromise = promise.then((response) => response.data);
-  // return it
   return dataPromise;
 }
 
-router.get("/", async (req, res) => {
+const corsOptions = {
+  origin: "https://tycho.pl",
+  optionsSuccessStatus: 200,
+};
+
+router.get("/", cors(corsOptions), async (req, res) => {
   axiosTest()
     .then((data) => {
       res.json({ message: "Request received!", data });
@@ -44,7 +43,6 @@ router.get("/", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/another", (req, res) => res.json({ route: req.originalUrl }));
 router.post("/", (req, res) => res.json({ postBody: req.body }));
 
 app.use(bodyParser.json());
