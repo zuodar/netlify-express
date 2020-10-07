@@ -23,15 +23,8 @@ const customProducts = {
 
 const router = express.Router();
 
-const headers = {
-  "Content-Type": "application/json",
-  "Access-Control-Allow-Origin": "https://tycho.pl",
-};
-
 function axiosTest() {
-  const promise = axios.post(url, customProducts, {
-    headers: headers,
-  });
+  const promise = axios.post(url, customProducts);
   const dataPromise = promise.then((response) => response.data);
   return dataPromise;
 }
