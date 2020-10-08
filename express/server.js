@@ -8,6 +8,7 @@ const serverless = require("serverless-http");
 const app = express();
 const bodyParser = require("body-parser");
 const router = express.Router();
+const axios = require("axios");
 
 const homePage = "https://tycho.pl/cstmpl";
 const url = `${homePage}/wp-json/wc/v3/products/batch?consumer_key=${process.env.consumer_key}&consumer_secret=${process.env.consumer_secret}`;
@@ -25,7 +26,7 @@ const customProducts = {
 function createProduct(product) {
   console.log(
     "im still using const from above, but I already got this data:",
-    JSON.parse(product)
+    product
   );
   const promise = axios.post(url, customProducts);
   const dataPromise = promise.then((response) => response.data);
@@ -50,7 +51,7 @@ router.get("/createProduct", async (req, res) => {
 });
 
 app.use("/.netlify/functions/server", router); // path must route to lambda
-// app.use("/", router); // path must route to lambda
+app.use("/", router); // path must route to lambda
 
 app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
 
