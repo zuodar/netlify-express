@@ -1,7 +1,7 @@
 {
   "name": "be",
   "version": "0.0.1",
-  "main": "functions/server.js",
+  "main": "functions/test.js",
   "scripts": {
     "build": "netlify-lambda build express",
     "start": "nodemon server-local.js"
