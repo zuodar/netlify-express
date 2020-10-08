@@ -32,14 +32,16 @@ function axiosTest() {
 router.get("/", async (req, res) => {
   axiosTest()
     .then((data) => {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+
       res.json({ message: "Request received!", data });
     })
     .catch((err) => console.log(err));
 });
-
-router.post("/", (req, res) => res.json({ postBody: req.body }));
-
-app.use(bodyParser.json());
 
 app.use("/.netlify/functions/server", router); // path must route to lambda
 app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
