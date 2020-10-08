@@ -37,13 +37,13 @@ router.get("/", async (req, res) => {
   axiosTest()
     .then((data) => {
       console.log("I will be sending json now!");
-      res.json({ message: "Request received!", data });
+      res.json({ message: "Request received!, 19:58", data });
     })
     .catch((err) => console.log(err));
 });
 
 app.use("/.netlify/functions/server", router); // path must route to lambda
-app.use("/", router); // path must route to lambda
+// app.use("/", router); // path must route to lambda
 
 // app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
 
