@@ -1,6 +1,8 @@
 "use strict";
 require("dotenv").config();
 require("encoding");
+const cors = require("cors");
+
 const express = require("express");
 const path = require("path");
 const serverless = require("serverless-http");
@@ -23,6 +25,8 @@ const customProducts = {
 
 const router = express.Router();
 
+app.use(cors());
+
 function axiosTest() {
   const promise = axios.post(url, customProducts);
   const dataPromise = promise.then((response) => response.data);
@@ -32,19 +36,16 @@ function axiosTest() {
 router.get("/", async (req, res) => {
   axiosTest()
     .then((data) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-      );
-
+      console.log("I will be sending json now!");
       res.json({ message: "Request received!", data });
     })
     .catch((err) => console.log(err));
 });
 
 app.use("/.netlify/functions/server", router); // path must route to lambda
-app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
+app.use("/", router); // path must route to lambda
+
+// app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
 
 module.exports = app;
 module.exports.handler = serverless(app);
