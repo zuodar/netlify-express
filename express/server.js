@@ -34,7 +34,7 @@ function createProduct(product) {
 
 app.use(cors());
 
-router.get("/", async (req, res) => {
+router.get("/createProduct", async (req, res) => {
   const product = req.query.product;
   if (!product) {
     res.send("no product provided");
@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
 });
 
 app.use("/.netlify/functions/server", router); // path must route to lambda
-app.use("/", router); // path must route to lambda
+// app.use("/", router); // path must route to lambda
 
 app.use("/", (req, res) => res.sendFile(path.join(__dirname, "../index.html")));
 
