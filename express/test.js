@@ -15,6 +15,6 @@ router.post("/", (req, res) => res.json({ postBody: req.body, test: "20:34" }));
 
 app.use(bodyParser.json());
 app.use("/.netlify/functions/server", router); // path must route to lambda
-
+app.use("/", router);
 module.exports = app;
 module.exports.handler = serverless(app);
