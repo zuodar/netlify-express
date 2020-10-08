@@ -33,11 +33,11 @@ function axiosTest() {
   return dataPromise;
 }
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   axiosTest()
     .then((data) => {
       console.log("I will be sending json now!");
-      res.json({ message: "Request received!, 19:58", data });
+      res.json({ message: "Request received!, 20:06", data });
     })
     .catch((err) => console.log(err));
 });
